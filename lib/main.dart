@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_app/pages/qr_scan_page.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import 'pages/qr_create_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
-      home: MyHomePage(title: 'QR'),
+      home: MyHomePage(title: 'QR App'),
     );
   }
 }
@@ -28,7 +31,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final controller = TextEditingController();
+  int _selectedIndex = 0;
+
+  static List<Widget> _widgetOptions = <Widget>[
+    CreateQR(),
+    QrView(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,28 +51,23 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              QrImage(
-                data: controller.text,
-                size: 200,
-              ),
-              buildTextField(context),
-            ],
-          ),
-        ),
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-    );
-  }
-
-  Widget buildTextField(BuildContext context) {
-    return TextField(
-      controller: controller,
-      onChanged: (_) {
-        setState(() {});
-      },
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Create QR',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Scan QR',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).primaryColor,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
