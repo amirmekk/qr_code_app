@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class CreateQR extends StatefulWidget {
-  CreateQR({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  CreateQR({Key? key}) : super(key: key);
 
   @override
   _CreateQR createState() => _CreateQR();
@@ -15,9 +13,6 @@ class _CreateQR extends State<CreateQR> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
